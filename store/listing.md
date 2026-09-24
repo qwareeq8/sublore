@@ -9,6 +9,7 @@ Upload `dist/sublore-chrome.zip` to the Chrome Web Store and
 - Summary: Shows how active Reddit commenters are in subreddits you choose,
   right beside their username.
 - Category: Social Media & Networking (Chrome); Social & Communication (AMO)
+- AMO platforms: Firefox and Firefox for Android
 - Homepage: <https://github.com/qwareeq8/sublore>
 - Privacy policy: <https://github.com/qwareeq8/sublore/blob/main/PRIVACY.md>
 - Chrome store icon (128x128): `assets/icon-128.png`
@@ -49,7 +50,7 @@ Sublore is not affiliated with or endorsed by Reddit, Inc.
 ## AMO notes to reviewer
 
 ```text
-No account is needed. Settings open on install; click Allow. Then open any comment thread on www.reddit.com or old.reddit.com and click "Check" beside a username.
+No account is needed. Settings open on install; click Allow. Then open any comment thread on www.reddit.com or old.reddit.com and click "Check" beside a username. The same steps work in Firefox for Android 152 or later.
 
 The only remote service is the public Arctic Shift API (arctic-shift.photon-reddit.com, https://github.com/ArthurHeitmann/arctic_shift). A request is sent only after the user allows lookups and clicks Check, and contains the Reddit username and a date range, with cookies and referrer omitted. This is declared as websiteContent in data_collection_permissions.
 

@@ -10,6 +10,7 @@
     "test:browser": "node tests/browser.cjs",
     "test:chrome": "node tests/chrome.cjs",
     "test:firefox": "node tests/firefox.cjs",
+    "test:android": "node tests/firefox-android.cjs",
     "test:userscript": "node tests/userscript.cjs",
     "lint:firefox": "web-ext lint --source-dir dist/firefox"
   },

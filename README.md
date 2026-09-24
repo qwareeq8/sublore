@@ -1,8 +1,8 @@
 # Sublore
 
-Sublore is a Chrome and Firefox extension that adds a **Check** button beside
-each commenter on Reddit threads. Click it to see how active that person is in
-the subreddits you choose.
+Sublore is a Chrome and Firefox extension, including Firefox for Android, that
+adds a **Check** button beside each commenter on Reddit threads. Click it to
+see how active that person is in the subreddits you choose.
 
 ![Subreddit badges beside Reddit commenters](store/screenshot-thread.png)
 
@@ -13,8 +13,8 @@ last 7 days. Sublore is not affiliated with Reddit.
 
 ## Install
 
-Requires Chrome 120 or Firefox 140 or later. Store listings are pending; until
-then, build and load it unpacked:
+Requires Chrome 120, Firefox 140, or Firefox for Android 152 or later. Store
+listings are pending; until then, build and load it unpacked:
 
 ```sh
 npm install
@@ -56,12 +56,15 @@ npm run lint:firefox    # Runs Mozilla's add-on linter on dist/firefox.
 npm run test:browser    # Runs the DOM fixtures in Firefox, or Chromium with BROWSER_ENGINE=chromium.
 npm run test:chrome     # Tests the packaged extension in Chromium.
 npm run test:firefox    # Tests the packaged extension in Firefox.
+npm run test:android    # Tests the packaged extension in Firefox for Android.
 npm run test:userscript # Tests the built userscript.
 npm run icons           # Renders assets/icon-*.png from the SVG sources.
 ```
 
 Browser tests mock Arctic Shift and send no public API requests. Run
 `npx playwright install chromium firefox` once before the Playwright tests; the
-Firefox extension test downloads its own Firefox. The `test:chrome`,
-`test:firefox`, and `test:userscript` scripts need a fresh `npm run build`.
+Firefox extension test downloads its own Firefox. The Android test needs
+geckodriver and an adb device or emulator with Firefox for Android 152 or later.
+The `test:chrome`, `test:firefox`, `test:android`, and `test:userscript` scripts
+need a fresh `npm run build`.
 Store listing text and images are in `store/`.

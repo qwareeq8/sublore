@@ -79,8 +79,17 @@ async function firefoxBinary() {
     bidi.on("log.entryAdded", entry => { if (entry.type === "javascript") errors.push(entry.text); });
     assert.equal(await browser.installExtension(extension), id);
     const page = await browser.newPage();
-    await page.goto("https://www.reddit.com/r/Fauxmoi/comments/abc123/fixture/", { waitUntil: "domcontentloaded" });
-    await page.waitForSelector(".sublore-badges button");
+    // Puppeteer over BiDi can miss the end of a navigation, so the page navigates itself and the test polls.
+    const load = async (navigate, ready, message) => {
+      await page.evaluate(navigate);
+      for (const end = Date.now() + 30000; !(await page.evaluate(ready).catch(() => false));) {
+        assert.ok(Date.now() < end, message);
+        await delay(100);
+      }
+    };
+    await load(() => { setTimeout(() => { location.href = "https://www.reddit.com/r/Fauxmoi/comments/abc123/fixture/"; }, 0); },
+      () => location.hostname === "www.reddit.com" && Boolean(document.querySelector(".sublore-badges button")),
+      "The fixture thread must show the Check button.");
     assert.equal(await page.$eval(".sublore-badges button", element => element.textContent), "Check");
     await page.click(".sublore-badges button");
     await page.waitForFunction(() => document.querySelector(".sublore-badges button")?.textContent === "Check");
@@ -109,15 +118,9 @@ async function firefoxBinary() {
     await page.waitForSelector(".sublore-badges a");
     assert.equal(await page.$eval(".sublore-badges a", element => element.textContent), "r/Fauxmoi · 79");
     assert.equal(apiCalls, 1);
-    // Puppeteer can miss the completion of a second navigation in the same tab, so the page reloads
-    // itself and the test polls until the new document shows the cached badge.
-    await page.evaluate(() => { window.beforeReload = true; setTimeout(() => location.reload(), 0); });
-    for (const end = Date.now() + 20000; ;) {
-      const reloaded = await page.evaluate(() => !window.beforeReload && Boolean(document.querySelector(".sublore-badges a"))).catch(() => false);
-      if (reloaded) break;
-      assert.ok(Date.now() < end, "The reloaded page must show the cached badge.");
-      await delay(100);
-    }
+    await load(() => { window.beforeReload = true; setTimeout(() => location.reload(), 0); },
+      () => !window.beforeReload && Boolean(document.querySelector(".sublore-badges a")),
+      "The reloaded page must show the cached badge.");
     assert.equal(apiCalls, 1);
     await inOptions(value => {
       const input = document.getElementById("minCount");
@@ -139,4 +142,5 @@ async function firefoxBinary() {
     proxy.close();
     api.close();
   }
-})().catch(error => { console.error(error); process.exitCode = 1; });
+// Exit explicitly, because the local proxy keeps Node running when a launch step fails.
+})().catch(error => { console.error(error); process.exit(1); });
