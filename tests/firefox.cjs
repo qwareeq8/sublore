@@ -109,8 +109,15 @@ async function firefoxBinary() {
     await page.waitForSelector(".sublore-badges a");
     assert.equal(await page.$eval(".sublore-badges a", element => element.textContent), "r/Fauxmoi · 79");
     assert.equal(apiCalls, 1);
-    await page.reload({ waitUntil: "domcontentloaded" });
-    await page.waitForSelector(".sublore-badges a");
+    // Puppeteer can miss the completion of a second navigation in the same tab, so the page reloads
+    // itself and the test polls until the new document shows the cached badge.
+    await page.evaluate(() => { window.beforeReload = true; setTimeout(() => location.reload(), 0); });
+    for (const end = Date.now() + 20000; ;) {
+      const reloaded = await page.evaluate(() => !window.beforeReload && Boolean(document.querySelector(".sublore-badges a"))).catch(() => false);
+      if (reloaded) break;
+      assert.ok(Date.now() < end, "The reloaded page must show the cached badge.");
+      await delay(100);
+    }
     assert.equal(apiCalls, 1);
     await inOptions(value => {
       const input = document.getElementById("minCount");
