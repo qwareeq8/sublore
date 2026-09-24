@@ -1,0 +1,43 @@
+.sublore-badges {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-inline-start: 6px;
+  max-width: 100%;
+  color: inherit;
+  vertical-align: middle;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.sublore-badges .sublore-pill,
+.sublore-badges .sublore-empty {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.sublore-badges .sublore-pill { cursor: pointer; }
+.sublore-badges .sublore-pill:hover { background: color-mix(in srgb, currentColor 15%, transparent); text-decoration: underline; }
+.sublore-badges .sublore-pill:active { background: color-mix(in srgb, currentColor 22%, transparent); }
+.sublore-badges :focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.sublore-badges .sublore-pill[aria-disabled="true"] { cursor: wait; opacity: .7; }
+.sublore-badges .sublore-empty { background: color-mix(in srgb, currentColor 5%, transparent); opacity: .8; }
+.sublore-badges .sublore-recheck { min-width: 24px; justify-content: center; padding: 0 5px; background: transparent; font-size: 14px; opacity: .65; }
+.sublore-badges .sublore-recheck:hover, .sublore-badges .sublore-recheck:focus-visible { opacity: 1; text-decoration: none; }
+.sublore-badges .sublore-new:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.sublore-badges .sublore-new { display: inline-flex; align-items: center; justify-content: center; height: 18px; padding: 0 3px; border-radius: 999px; }
+.sublore-badges .sublore-new svg { fill: #2f9e44; stroke: #2f9e44; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+

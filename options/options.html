@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sublore settings</title>
+  <link rel="stylesheet" href="options.css">
+  <script src="../src/platform.js" defer></script>
+  <script src="../src/settings.js" defer></script>
+  <script src="options.js" defer></script>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <img class="mark" src="../assets/icon-32.svg" alt="">
+      <div>
+        <h1>Sublore</h1>
+        <p class="muted">Click <strong>Check</strong> beside a commenter on a Reddit thread.</p>
+      </div>
+    </header>
+
+    <section id="consent" class="card consent" aria-labelledby="consent-heading" hidden>
+      <h2 id="consent-heading">Allow lookups</h2>
+      <p>Each username you check is sent, with a date range, to <a href="https://github.com/ArthurHeitmann/arctic_shift" target="_blank" rel="noopener noreferrer">Arctic Shift</a>, a public Reddit archive. Nothing is sent until you click <strong>Check</strong>.</p>
+      <button id="allow" type="button" class="primary">Allow</button>
+    </section>
+
+    <form id="settings-form">
+      <fieldset id="controls" disabled>
+        <legend class="sr-only">Settings</legend>
+
+        <section class="card" aria-labelledby="watchlist-heading">
+          <div class="card-head">
+            <h2 id="watchlist-heading">Subreddits <span id="watch-count" class="count"></span></h2>
+            <button id="restore" type="button" class="quiet">Restore defaults</button>
+          </div>
+          <div class="add-row">
+            <label for="subreddit" class="sr-only">Add a subreddit</label>
+            <input id="subreddit" type="text" placeholder="Add a subreddit" aria-describedby="subreddit-error" autocomplete="off" spellcheck="false" maxlength="24">
+            <button id="add" type="button">Add</button>
+          </div>
+          <p id="subreddit-error" class="error" role="alert"></p>
+          <ul id="watchlist" aria-label="Watched subreddits"></ul>
+        </section>
+
+        <section class="card" aria-labelledby="lookup-heading">
+          <h2 id="lookup-heading">Lookup</h2>
+          <div class="row">
+            <label for="lookbackMonths">Lookback <span class="unit">(months)</span></label>
+            <input id="lookbackMonths" type="number" min="1" max="120" step="1" required>
+          </div>
+          <div class="row">
+            <label for="minCount">Minimum count</label>
+            <input id="minCount" type="number" min="1" max="1000000" step="1" required>
+          </div>
+          <div class="row">
+            <label for="maxBadges">Badges shown</label>
+            <input id="maxBadges" type="number" min="1" max="10" step="1" required>
+          </div>
+          <div class="row">
+            <label for="cacheDays">Cache results <span class="unit">(days)</span></label>
+            <input id="cacheDays" type="number" min="1" max="30" step="1" required>
+          </div>
+          <div class="row">
+            <label for="intervalSeconds">Wait between requests <span class="unit">(seconds)</span></label>
+            <input id="intervalSeconds" type="number" min="1" max="60" step="1" required>
+          </div>
+        </section>
+
+        <div class="actions">
+          <button type="submit" class="primary">Save</button>
+          <button id="clear" type="button">Clear cache</button>
+          <p id="status" role="status" aria-live="polite">Loading...</p>
+        </div>
+      </fieldset>
+    </form>
+
+    <footer class="muted">
+      <p>Data from <a href="https://github.com/ArthurHeitmann/arctic_shift" target="_blank" rel="noopener noreferrer">Arctic Shift</a></p>
+      <p class="credit">Made with <img class="emote" src="../assets/dggL.png" alt="dggL" width="32" height="35"> by <span class="tier5">yusuf</span>.</p>
+    </footer>
+  </main>
+</body>
+</html>
