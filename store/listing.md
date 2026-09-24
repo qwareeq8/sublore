@@ -12,7 +12,8 @@ Upload `dist/sublore-chrome.zip` to the Chrome Web Store and
 - Homepage: <https://github.com/qwareeq8/sublore>
 - Privacy policy: <https://github.com/qwareeq8/sublore/blob/main/PRIVACY.md>
 - Chrome store icon (128x128): `assets/icon-128.png`
-- Screenshots (1280x800): `screenshot-thread.png`, `screenshot-settings.png`
+- Screenshots (1280x800): `screenshot-thread.png`, `screenshot-newcomer.png`,
+  `screenshot-settings.png`
 - Chrome small promo tile (440x280): `promo-small.png`
 
 ## Description
