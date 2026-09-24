@@ -63,7 +63,7 @@ function setup({ seed, fetchFn, consent = true } = {}) {
     action: { onClicked: actions },
   };
   const context = vm.createContext({
-    browser, fetch: fetchFn || (async () => { throw new Error("unexpected fetch"); }),
+    browser, fetch: fetchFn || (async () => { throw new Error("This test must not fetch."); }),
     AbortController, Headers, URL, URLSearchParams, TextEncoder, setTimeout, clearTimeout, console,
   });
   for (const name of ["settings", "api", "cache", "scheduler", "background"]) {

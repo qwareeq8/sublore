@@ -36,12 +36,12 @@ test("Settings normalize unique defaults and validate editable watchlists.", () 
   assert.throws(() => Sublore.settings({ watchlist: Array.from({ length: 501 }, (_, i) => `sub_${i}`) }), /at most 500/);
 });
 
-test("windowStart clamps calendar months at their last day.", () => {
+test("The windowStart function clamps calendar months at their last day.", () => {
   assert.equal(Sublore.windowStart(Date.UTC(2024, 2, 31, 12), 1), "2024-02-29T12:00:00.000Z");
   assert.equal(Sublore.windowStart(Date.UTC(2023, 2, 31, 12), 1), "2023-02-28T12:00:00.000Z");
 });
 
-test("fetchActivity sends the documented query and parses Arctic Shift data.", async () => {
+test("The fetchActivity function sends the documented query and parses Arctic Shift data.", async () => {
   const now = Date.UTC(2024, 5, 30, 8, 9, 10);
   let request;
   const result = await Sublore.fetchActivity("Some_User", 6, {
@@ -76,7 +76,7 @@ test("API rejects invalid schemas, HTTP failures, and network failures while acc
   await assert.rejects(() => Sublore.fetchActivity("author", 1, { fetchFn: async () => response(404, {}) }), error => error.status === 404 && !error.retryable);
   const empty = await Sublore.fetchActivity("author", 1, { fetchFn: async () => response(200, { data: [] }) });
   assert.deepEqual(empty.activity, []);
-  await assert.rejects(() => Sublore.fetchActivity("author", 1, { fetchFn: async () => { throw new Error("offline"); } }), error => error.retryable && /Could not reach/.test(error.message));
+  await assert.rejects(() => Sublore.fetchActivity("author", 1, { fetchFn: async () => { throw new Error("The network is offline."); } }), error => error.retryable && /Could not reach/.test(error.message));
 });
 
 test("Rate-limit deadlines support seconds, epoch milliseconds, and Retry-After.", async () => {
@@ -138,7 +138,7 @@ test("RequestScheduler deduplicates callers and spaces serial starts by interval
     sleep: async ms => { clock += ms; },
   });
   const first = scheduler.run("same", async () => { starts.push(clock); return "one"; });
-  const duplicate = scheduler.run("same", async () => { throw new Error("should not run"); });
+  const duplicate = scheduler.run("same", async () => { throw new Error("A duplicate job must not run."); });
   const second = scheduler.run("next", async () => { starts.push(clock); return "two"; });
   assert.strictEqual(first, duplicate);
   assert.deepEqual(await Promise.all([first, duplicate, second]), ["one", "one", "two"]);
@@ -154,7 +154,7 @@ test("RequestScheduler retries retryable network and 5xx errors at most three ti
   let networkAttempts = 0;
   const network = await scheduler.run("network", async () => {
     networkAttempts++;
-    if (networkAttempts < 3) throw apiError("network", { retryable: true });
+    if (networkAttempts < 3) throw apiError("The network failed.", { retryable: true });
     return "recovered";
   });
   assert.equal(network, "recovered");
@@ -162,7 +162,7 @@ test("RequestScheduler retries retryable network and 5xx errors at most three ti
   let serverAttempts = 0;
   await assert.rejects(() => scheduler.run("server", async () => {
     serverAttempts++;
-    throw apiError("server", { retryable: true, status: 503 });
+    throw apiError("The server failed.", { retryable: true, status: 503 });
   }), /server/);
   assert.equal(serverAttempts, 3);
 });
@@ -171,13 +171,13 @@ test("RequestScheduler persists 429 cooldowns and permits later retries without 
   let clock = 1_000;
   const storage = new MemoryStorage();
   const scheduler = new Sublore.RequestScheduler({ storage, interval: () => 0, now: () => clock, sleep: async () => {} });
-  await assert.rejects(() => scheduler.run("limited", async () => { throw apiError("limited", { status: 429, retryAt: 5_000 }); }), /limited/);
+  await assert.rejects(() => scheduler.run("limited", async () => { throw apiError("Rate limited.", { status: 429, retryAt: 5_000 }); }), /limited/);
   const restored = new Sublore.RequestScheduler({ storage, interval: () => 0, now: () => clock, sleep: async () => {} });
   let called = false;
   await assert.rejects(() => restored.run("blocked", async () => { called = true; }), error => error.retryAt === 5_000);
   assert.equal(called, false);
   clock = 5_000;
   assert.equal(await restored.run("later", async () => "ok"), "ok");
-  await assert.rejects(() => restored.run("failure", async () => { throw apiError("ordinary failure"); }), /ordinary failure/);
+  await assert.rejects(() => restored.run("failure", async () => { throw apiError("An ordinary failure occurred."); }), /ordinary failure/);
   assert.equal(await restored.run("after-failure", async () => "still works"), "still works");
 });

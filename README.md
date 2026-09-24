@@ -49,19 +49,19 @@ See [PRIVACY.md](PRIVACY.md).
 Requires Node.js 22 or later.
 
 ```sh
-npm test                # Unit tests
-npm run check           # Manifest references and syntax
-npm run build           # dist/chrome, dist/firefox, ZIPs, and the userscript
-npm run lint:firefox    # Mozilla's add-on linter on dist/firefox
-npm run test:browser    # DOM fixtures; set BROWSER_ENGINE=chromium for Chromium
-npm run test:chrome     # Packaged extension in Chromium
-npm run test:firefox    # Packaged extension in Firefox
-npm run test:userscript # Built userscript
-npm run icons           # Renders assets/icon-*.png from the SVG sources
+npm test                # Runs the unit tests.
+npm run check           # Checks manifest references and JavaScript syntax.
+npm run build           # Builds dist/chrome, dist/firefox, both ZIPs, and the userscript.
+npm run lint:firefox    # Runs Mozilla's add-on linter on dist/firefox.
+npm run test:browser    # Runs the DOM fixtures in Firefox, or Chromium with BROWSER_ENGINE=chromium.
+npm run test:chrome     # Tests the packaged extension in Chromium.
+npm run test:firefox    # Tests the packaged extension in Firefox.
+npm run test:userscript # Tests the built userscript.
+npm run icons           # Renders assets/icon-*.png from the SVG sources.
 ```
 
 Browser tests mock Arctic Shift and send no public API requests. Run
 `npx playwright install chromium firefox` once before the Playwright tests; the
-Firefox extension test downloads its own Firefox. `test:chrome`,
-`test:firefox`, and `test:userscript` need a fresh `npm run build`. Store
-listing text and images are in `store/`.
+Firefox extension test downloads its own Firefox. The `test:chrome`,
+`test:firefox`, and `test:userscript` scripts need a fresh `npm run build`.
+Store listing text and images are in `store/`.

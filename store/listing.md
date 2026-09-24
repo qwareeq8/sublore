@@ -52,5 +52,5 @@ No account is needed. Settings open on install; click Allow. Then open any comme
 
 The only remote service is the public Arctic Shift API (arctic-shift.photon-reddit.com, https://github.com/ArthurHeitmann/arctic_shift). A request is sent only after the user allows lookups and clicks Check, and contains the Reddit username and a date range, with cookies and referrer omitted. This is declared as websiteContent in data_collection_permissions.
 
-The source is not minified, bundled, or transpiled. scripts/build.cjs copies src/, options/, and assets/ and writes the Firefox manifest; the uploaded files are the source.
+The source is not minified, bundled, or transpiled. The build script scripts/build.cjs copies src/, options/, and assets/ and writes the Firefox manifest; the uploaded files are the source.
 ```

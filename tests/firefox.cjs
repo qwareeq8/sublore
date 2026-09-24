@@ -79,7 +79,7 @@ async function firefoxBinary() {
     bidi.on("log.entryAdded", entry => { if (entry.type === "javascript") errors.push(entry.text); });
     assert.equal(await browser.installExtension(extension), id);
     const page = await browser.newPage();
-    await page.goto("https://www.reddit.com/r/Fauxmoi/comments/abc123/fixture/");
+    await page.goto("https://www.reddit.com/r/Fauxmoi/comments/abc123/fixture/", { waitUntil: "domcontentloaded" });
     await page.waitForSelector(".sublore-badges button");
     assert.equal(await page.$eval(".sublore-badges button", element => element.textContent), "Check");
     await page.click(".sublore-badges button");
@@ -97,7 +97,7 @@ async function firefoxBinary() {
     };
     const until = async fn => {
       for (const end = Date.now() + 10000; !(await inOptions(fn));) {
-        if (Date.now() > end) throw new Error(`Timed out waiting for ${fn}`);
+        if (Date.now() > end) throw new Error(`Timed out waiting for ${fn}.`);
         await delay(100);
       }
     };
@@ -109,7 +109,7 @@ async function firefoxBinary() {
     await page.waitForSelector(".sublore-badges a");
     assert.equal(await page.$eval(".sublore-badges a", element => element.textContent), "r/Fauxmoi · 79");
     assert.equal(apiCalls, 1);
-    await page.reload();
+    await page.reload({ waitUntil: "domcontentloaded" });
     await page.waitForSelector(".sublore-badges a");
     assert.equal(apiCalls, 1);
     await inOptions(value => {
@@ -125,7 +125,7 @@ async function firefoxBinary() {
     await page.waitForFunction(() => document.querySelector(".sublore-badges button")?.textContent === "Check" && !document.querySelector(".sublore-badges a"));
     assert.equal(apiCalls, 1);
     assert.deepEqual(errors, []);
-    console.log("Packaged Firefox extension passed: temporary add-on install, background scripts, real extension messaging, content injection, consent, lookup, cache hit, options save, and cache clear. API responses served by a local proxy; no public API calls.");
+    console.log("Packaged Firefox extension passed: temporary add-on install, background scripts, real extension messaging, content injection, consent, lookup, cache hit, options save, and cache clear. A local proxy served the API, so no public API calls were made.");
   } finally {
     await browser.close();
     api.closeAllConnections();

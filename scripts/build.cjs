@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, "..");
 const output = path.join(root, "dist");
 const sourceManifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "utf8"));
 for (const icon of Object.values(sourceManifest.icons)) {
-  if (!fs.existsSync(path.join(root, icon))) throw new Error(`Missing icon: ${icon}`);
+  if (!fs.existsSync(path.join(root, icon))) throw new Error(`The manifest icon ${icon} is missing.`);
 }
 function crc32(data) {
   let crc = 0xffffffff;
@@ -67,7 +67,7 @@ for (const target of ["firefox", "chrome"]) {
   const archive = zip(collect(folder));
   const name = `sublore-${target}.zip`;
   fs.writeFileSync(path.join(output, name), archive);
-  console.log(`${name}: ${archive.length} bytes; SHA-256 ${createHash("sha256").update(archive).digest("hex")}`);
+  console.log(`Wrote dist/${name} (${archive.length} bytes, SHA-256 ${createHash("sha256").update(archive).digest("hex")}).`);
 }
 
 // The userscript bundles the same sources with userscript/shim.js standing in for extension APIs.
@@ -130,5 +130,5 @@ ${sourceManifest.content_scripts[0].matches.map(match => `// @match        ${mat
   const script = `${header}\n(() => {\n${body}\n})();\n`;
   const name = "sublore.user.js";
   fs.writeFileSync(path.join(output, name), script);
-  console.log(`${name}: ${Buffer.byteLength(script)} bytes; SHA-256 ${createHash("sha256").update(script).digest("hex")}`);
+  console.log(`Wrote dist/${name} (${Buffer.byteLength(script)} bytes, SHA-256 ${createHash("sha256").update(script).digest("hex")}).`);
 }

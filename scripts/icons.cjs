@@ -13,7 +13,7 @@ const icons = [["icon-16.svg", 16], ["icon-32.svg", 32], ["icon.svg", 48], ["ico
       await page.setViewportSize({ width: size, height: size });
       await page.setContent(`<style>html, body { margin: 0; background: transparent; } svg { display: block; width: ${size}px; height: ${size}px; }</style>${fs.readFileSync(path.join(assets, source), "utf8")}`);
       await page.screenshot({ path: path.join(assets, `icon-${size}.png`), omitBackground: true });
-      console.log(`assets/icon-${size}.png`);
+      console.log(`Wrote assets/icon-${size}.png.`);
     }
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -54,7 +54,7 @@ const browser = (() => {
       onMessage: { addListener: listener => self.message.push(listener) },
       onDisconnect: { addListener: listener => self.disconnect.push(listener) },
       postMessage(message) {
-        if (self.closed) throw new Error("Attempting to use a disconnected port object");
+        if (self.closed) throw new Error("Attempting to use a disconnected port object.");
         const copy = structuredClone(message);
         setTimeout(() => { if (!self.peer.closed) for (const listener of self.peer.message) listener(copy); }, 0);
       },
@@ -93,7 +93,7 @@ const browser = (() => {
 // Page fetches to Arctic Shift can be blocked by Reddit's CSP, so requests go through the manager.
 function fetch(url, init = {}) {
   return new Promise((resolve, reject) => {
-    if (init.signal?.aborted) { reject(new DOMException("Aborted", "AbortError")); return; }
+    if (init.signal?.aborted) { reject(new DOMException("The request was aborted.", "AbortError")); return; }
     const request = GM_xmlhttpRequest({
       method: "GET", url, anonymous: true, responseType: "text",
       onload(response) {
@@ -106,9 +106,9 @@ function fetch(url, init = {}) {
       },
       onerror: () => reject(new TypeError("Network request failed.")),
       ontimeout: () => reject(new TypeError("Network request timed out.")),
-      onabort: () => reject(new DOMException("Aborted", "AbortError")),
+      onabort: () => reject(new DOMException("The request was aborted.", "AbortError")),
     });
-    init.signal?.addEventListener("abort", () => { request?.abort?.(); reject(new DOMException("Aborted", "AbortError")); }, { once: true });
+    init.signal?.addEventListener("abort", () => { request?.abort?.(); reject(new DOMException("The request was aborted.", "AbortError")); }, { once: true });
   });
 }
 

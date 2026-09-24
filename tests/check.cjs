@@ -12,7 +12,7 @@ function checkManifest(base, value) {
   const files = [...(value.background.scripts || [value.background.service_worker]), ...Object.values(value.action.default_icon),
     ...value.content_scripts.flatMap(s => [...s.js, ...s.css]), value.options_ui.page,
     ...Object.values(value.icons || {})];
-  for (const file of files) assert.ok(fs.existsSync(path.join(base, file)), `Missing ${file}`);
+  for (const file of files) assert.ok(fs.existsSync(path.join(base, file)), `The manifest references ${file}, which is missing.`);
 }
 checkManifest(root, manifest);
 for (const target of ["firefox", "chrome"]) {

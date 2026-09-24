@@ -198,11 +198,11 @@ const fixture = `<!doctype html><html><head><style>
       await options.screenshot({ path: path.join(screenshotDir, `options-${theme}.png`), fullPage: true });
       for (const width of [320, 768, 1280]) {
         await options.setViewportSize({ width, height: 1000 });
-        assert.equal(await options.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${theme} options overflow at ${width}px`);
+        assert.equal(await options.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `The ${theme} settings page overflows at ${width} px.`);
       }
     }
     assert.deepEqual(errors, []);
-    console.log(`${engine} fixture checks passed: nested/old/dynamic comments, cached-only startup, filtering, expansion, keyboard, errors, retry, SPA, settings, and responsive themes.`);
-    console.log(`Screenshots: ${screenshotDir}`);
+    console.log(`Fixture checks passed in ${engine}: nested, old, and dynamic comments, cached-only startup, filtering, expansion, keyboard, errors, retry, SPA navigation, settings, and responsive themes.`);
+    console.log(`Screenshots are in ${screenshotDir}.`);
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -72,6 +72,6 @@ const extension = path.resolve(__dirname, "../dist/chrome");
       console.log("Chrome worker remained alive through a 35-second queued lookup.");
     }
     assert.deepEqual(errors, []);
-    console.log("Packaged Chrome extension passed: service worker, real extension messaging, content injection, consent, lookup, cache hit, options save, and cache clear. API responses mocked; no public API calls.");
+    console.log("Packaged Chrome extension passed: service worker, real extension messaging, content injection, consent, lookup, cache hit, options save, and cache clear. The API was mocked, so no public API calls were made.");
   } finally { await context.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

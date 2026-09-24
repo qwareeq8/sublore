@@ -83,6 +83,6 @@ const fixture = `<!doctype html><html><head></head><body style="font:14px system
     await page.keyboard.press("Escape");
     assert.equal(await panel.count(), 0);
     assert.deepEqual(errors, []);
-    console.log(`${engine} userscript checks passed. Screenshots: ${screenshotDir}`);
+    console.log(`Userscript checks passed in ${engine}. Screenshots are in ${screenshotDir}.`);
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

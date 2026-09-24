@@ -61,7 +61,7 @@
       const rows = matches(state.entry, settings);
       const months = `${settings.lookbackMonths} ${settings.lookbackMonths === 1 ? "month" : "months"}`;
       const checked = new Date(state.entry.fetchedAt).toLocaleDateString();
-      const recheck = button("↻", [`Last checked ${checked}`, state.cacheWarning].filter(Boolean).join(". "), () => load({ fresh: true }));
+      const recheck = button("↻", [`Last checked ${checked}.`, state.cacheWarning].filter(Boolean).join(" "), () => load({ fresh: true }));
       recheck.classList.add("sublore-recheck");
       recheck.setAttribute("aria-label", `Recheck u/${state.author}`);
       host.append(recheck);
@@ -69,7 +69,7 @@
       if (fresh) {
         const mark = link(searchUrl(fresh, state.author, state.entry.recent.after));
         mark.className = "sublore-new";
-        mark.title = `New to r/${fresh}: all activity there is from the last 7 days`;
+        mark.title = `New to r/${fresh}: all activity there is from the last 7 days.`;
         mark.setAttribute("aria-label", mark.title);
         mark.append(sprout());
         host.append(mark);
@@ -78,8 +78,8 @@
         const empty = document.createElement("span");
         empty.className = "sublore-empty";
         empty.textContent = state.entry.activity.length ? "No matches" : "No archive data";
-        empty.title = state.entry.activity.length ? "No activity in your watched subreddits"
-          : `No archived activity in the last ${months}`;
+        empty.title = state.entry.activity.length ? "No activity in your watched subreddits."
+          : `No archived activity in the last ${months}.`;
         empty.tabIndex = 0;
         host.append(empty);
       }
@@ -88,7 +88,7 @@
         pill.className = "sublore-pill";
         pill.dataset.subreddit = row.subreddit;
         pill.textContent = `r/${row.subreddit} · ${row.count}`;
-        pill.title = `Posts and comments in the last ${months}`;
+        pill.title = `Posts and comments in the last ${months}.`;
         host.append(pill);
       }
       if (rows.length > settings.maxBadges) {
