@@ -20,8 +20,8 @@ click **Check**, **Retry**, or the recheck button beside a commenter.
 
 Sublore stores your settings and up to 500 cached lookups (each checked
 username with its subreddit names and counts) in the browser's extension
-storage. **Clear cache** in settings deletes
-the cache. Removing the extension deletes everything.
+storage. **Clear cache** in settings deletes the cache. Removing the extension
+deletes everything.
 
 ## Limited use
 
